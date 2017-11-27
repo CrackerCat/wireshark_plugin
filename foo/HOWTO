@@ -1,0 +1,13 @@
+参照gryphon，在如下文件中增加foo对应的路径
+1. plugins/Makefile.am
+2. CMakeLists.txt
+3. configure.ac
+
+或者参照README.plugins中所述，在wireshark的根路径执行
+grep -rl gryphon .
+查找所有gryphon出现的文件，并增加foo对应的路径
+
+生成插件的过程与完全编译相同
+1. ./autogen.sh
+2. ./configure
+3. make
