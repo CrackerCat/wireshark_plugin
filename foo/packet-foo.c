@@ -11,6 +11,13 @@ static int hf_foo_sequenceno = -1;
 static int hf_foo_initialip = -1;
 static int ett_foo = -1;
 
+static const value_string packettypenames[] = {
+    {1, "Initialise"},
+    {2, "Terminate"},
+    {3, "Data"},
+    {0, NULL}
+};
+
 static int
 dissect_foo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_)
 {
@@ -41,7 +48,7 @@ proto_register_foo(void)
         { &hf_foo_pdu_type,
             {"FOO PDU Type", "foo.type",
             FT_UINT8, BASE_DEC,
-            NULL, 0x0,
+            VALS(packettypenames), 0x0,
             NULL, HFILL}
         },
         { &hf_foo_flags,
