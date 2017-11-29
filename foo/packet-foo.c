@@ -30,12 +30,17 @@ static int
 dissect_foo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_)
 {
     gint offset = 0;
+    guint8 packet_type = tvb_get_guint8(tvb, 0);
 
     col_set_str(pinfo->cinfo, COL_PROTOCOL, "FOO");
     /* clear out stuff in the info column */
     col_clear(pinfo->cinfo, COL_INFO);
+    col_add_fstr(pinfo->cinfo, COL_INFO, "Type %s",
+        val_to_str(packet_type, packettypenames, "Unkonwn (0x%02x)"));
 
     proto_item *ti = proto_tree_add_item(tree, proto_foo, tvb, 0, -1, ENC_NA);
+    proto_item_append_text(ti, ", Type %s",
+        val_to_str(packet_type, packettypenames, "Unkonwn (0x%02x)"));
     proto_tree *foo_tree = proto_item_add_subtree(ti, ett_foo);
     
     proto_tree_add_item(foo_tree, hf_foo_pdu_type, tvb, offset, 1, ENC_BIG_ENDIAN);
