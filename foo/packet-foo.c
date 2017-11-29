@@ -12,6 +12,8 @@ dissect_foo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data 
     /* clear out stuff in the info column */
     col_clear(pinfo->cinfo, COL_INFO);
 
+    (void)proto_tree_add_item(tree, proto_foo, tvb, 0, -1, ENC_NA);
+
     return tvb_captured_length(tvb);
 }
 
