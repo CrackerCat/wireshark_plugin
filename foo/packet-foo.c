@@ -18,6 +18,14 @@ static const value_string packettypenames[] = {
     {0, NULL}
 };
 
+#define FOO_START_FLAG 0x01
+#define FOO_END_FLAG 0x02
+#define FOO_PRIORITY_FLAG 0x04
+
+static int hf_foo_startflag = -1;
+static int hf_foo_endflag = -1;
+static int hf_foo_priorityflag = -1;
+
 static int
 dissect_foo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data _U_)
 {
@@ -29,12 +37,19 @@ dissect_foo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data 
 
     proto_item *ti = proto_tree_add_item(tree, proto_foo, tvb, 0, -1, ENC_NA);
     proto_tree *foo_tree = proto_item_add_subtree(ti, ett_foo);
+    
     proto_tree_add_item(foo_tree, hf_foo_pdu_type, tvb, offset, 1, ENC_BIG_ENDIAN);
     offset += 1;
+
     proto_tree_add_item(foo_tree, hf_foo_flags, tvb, offset, 1, ENC_BIG_ENDIAN);
+    proto_tree_add_item(foo_tree, hf_foo_startflag, tvb, offset, 1, ENC_BIG_ENDIAN);
+    proto_tree_add_item(foo_tree, hf_foo_endflag, tvb, offset, 1, ENC_BIG_ENDIAN);
+    proto_tree_add_item(foo_tree, hf_foo_priorityflag, tvb, offset, 1, ENC_BIG_ENDIAN);
     offset += 1;
+
     proto_tree_add_item(foo_tree, hf_foo_sequenceno, tvb, offset, 2, ENC_BIG_ENDIAN);
     offset += 2;
+
     proto_tree_add_item(foo_tree, hf_foo_initialip, tvb, offset, 4, ENC_BIG_ENDIAN);
     offset += 4;
 
@@ -55,6 +70,24 @@ proto_register_foo(void)
             {"FOO PDU Flags", "foo.flags",
             FT_UINT8, BASE_HEX,
             NULL, 0x0,
+            NULL, HFILL}
+        },
+        { &hf_foo_startflag,
+            {"FOO PDU Start Flags", "foo.flags.start",
+            FT_BOOLEAN, 8,
+            NULL, FOO_START_FLAG,
+            NULL, HFILL}
+        },
+        { &hf_foo_endflag,
+            {"FOO PDU End Flags", "foo.flags.end",
+            FT_BOOLEAN, 8,
+            NULL, FOO_END_FLAG,
+            NULL, HFILL}
+        },
+        { &hf_foo_priorityflag,
+            {"FOO PDU Priority Flags", "foo.flags.priority",
+            FT_BOOLEAN, 8,
+            NULL, FOO_PRIORITY_FLAG,
             NULL, HFILL}
         },
         { &hf_foo_sequenceno,
