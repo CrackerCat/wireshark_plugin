@@ -1,0 +1,3 @@
+pcap由文件头、数据包头和数据包组成，如下所示
+|file_header|pkt_header|pkt_data|pkt_header|pkt_data|......|pkt_header|pkt_data|
+文件头和数据包头在/usr/include/pcap/pcap.h定义。
