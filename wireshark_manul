@@ -1,3 +1,9 @@
 1. wireshark直接解码任意层数据包
    将pcap/pcapng中的linktype设置为147~162，在edit -> preference -> protocols -> DLT_USER中定义linktype对于的协议类型
 
+2. DLT_USER中的协议类型
+   填写gryphon(plugins/epan/gryphon/packet-gryphon.c)时，提示错误
+   填写ecatf(plugins/epan/ethercat/packet-ethercat-frame.c)时，未提示错误。
+   差别在于ecatf使用register_dissector()，而gryphon使用create_dissector_handle()，两个函数之间的差别在于是否调用register_dissector_handle().
+
+3. DLT_USER中的数据包，可以分为3段，payload、header和trailer，并分别指定协议类型，header和trailer的长度必须为定长。
