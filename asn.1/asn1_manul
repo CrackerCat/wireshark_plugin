@@ -1,0 +1,19 @@
+由于btrunc修改S1AP协议，增加procedure和信元，需要进行修改
+1. 合并asn文件
+2. 修改s1ap.cnf，该文件比较有规律
+   对于每一个ProcedureCode，增加对应的名字，比如
+       id-HandoverPreparation                  ProcedureCode
+   对于每一个ProcedureCode的初始消息、成功响应和失败响应，分别定义对因的消息，比如
+       HandoverRequired                        N s1ap.proc.imsg id-HandoverPreparation
+       HandoverCommand                         N s1ap.proc.sout id-HandoverPreparation
+       HandoverPreparationFailure              N s1ap.proc.uout id-HandoverPreparation
+   对于每一条消息，增加界面显示，比如
+       col_append_sep_str(actx->pinfo->cinfo, COL_INFO, NULL, "HandoverRequired");
+       col_append_sep_str(actx->pinfo->cinfo, COL_INFO, NULL, "HandoverCommand");
+       col_append_sep_str(actx->pinfo->cinfo, COL_INFO, NULL, "HandoverPreparationFailure");
+
+   对于每一个信元，增加对应的名字，比如
+       id-MME-UE-S1AP-ID                                   ProtocolIE-ID
+   对于每一个信元，增加对应的类型定义，内容取决于asn的定义，比如
+       MME-UE-S1AP-ID                          N s1ap.ies id-MME-UE-S1AP-ID
+       RAT-Type                                N s1ap.extension id-RAT-Type
