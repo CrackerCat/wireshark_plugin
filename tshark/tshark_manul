@@ -1,0 +1,14 @@
+tshark为wireshark的命令行工具，可以抓包，也可以解析数据包
+
+0. tshark --help
+
+1. tshark -r icmp.pcap
+
+2. tshark -r icmp.pcap -2
+
+3. tshark -r icmp.pcap -V
+
+4. tshark -r single_icmp.pcap -V -T pdml
+
+5. tshark -o uat:user_dlts:\"User\ 1\ \(DLT=148\)\",\"mysql\",\"0\",\"\",\"0\",\"\" -r little_mysql.pcap -V -T pdml
+   通过tshark解析自定义link type，自定义link type对应的字符串，可以在 DLT_USER的界面的配置文件获取。
