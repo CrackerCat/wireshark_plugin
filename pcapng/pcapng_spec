@@ -1,0 +1,7 @@
+pcapng文件格式的规范，参见https://github.com/pcapng/pcapng
+
+主要有3中SHB、IDB和EPB三种组成。
+构造数据包的代码见write_pcapng.c
+
+EPB中timestamp的转换方式为unix时间戳us转为16进制，分别填充到高位和低位。
+比如littlt_mysql的时间戳为2019-09-16 21:56:29.666673，对应的unix时间为1537106189 * 10^6 + 666673 us，转为16进制为0x575fd6c6ac971，因此高位为0x000575fd，低位为0x6c6ac971，并根据大小端进行转换。
