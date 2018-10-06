@@ -1,0 +1,3 @@
+1. wireshark直接解码任意层数据包
+   将pcap/pcapng中的linktype设置为147~162，在edit -> preference -> protocols -> DLT_USER中定义linktype对于的协议类型
+
