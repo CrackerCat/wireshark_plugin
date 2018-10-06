@@ -1,0 +1,35 @@
+wireshark随版本发布Wireshark Developer’s Guide，该手册中说明wireshark如何构建。该手册在源文件中以asciidoc方式存在，构建部分在docbook/wsdg_src/WSDG_chapter_sources.asciidoc
+
+不同版本中，wireshark手册给出的构建方法略有差异
+1. wireshark-2.5.0中，构建方法为
+   ./autogen.sh
+   ./configure
+   make
+
+2. wireshark-2.6.0中，构建方法为
+   mkdir wireshark-ninja
+   cd wireshark-ninja
+   cmake -G Ninja ../wireshark
+   ninja
+
+对于Linux版本来讲，开发手册中对于安装依赖的命令未进行详细说明，需要不断尝试。在Ubuntu 16.04版本编译成功，在编译过程中安装了一些依赖包，在此进行记录
+
+1. wireshark-2.5.0
+   sudo apt-get install wireshark
+   sudo apt-get install wireshark-dev
+   sudo apt-get install libtool-bin
+   sudo apt-get install libgcrypt11-dev
+   sudo apt-get install qt5-default
+   sudo apt-get install qttools5-dev-tools
+   如果不安装wireshark和wireshark-dev，应该缺失更多的依赖。未进行尝试。
+
+2. wireshark-2.6.0
+   在wireshark-2.5.0编译正常的基础之上，使用ninja编译wireshark-2.6.0，仍然缺少依赖包。
+   sudo apt-get install ninja-build
+   sudo apt-get install krb5-user  // 可能应该是libkrb5-dev
+   sudo apt-get install flex
+   sudo apt-get install qtmultimedia5-dev // qttools5-dev, qttools5-dev-tools，如果安装了qttools5-dev，是否不需要qt5-default
+   sudo apt-get install libqt5svg5-dev
+   sudo apt-get install bison
+
+总结，关于依赖库，等再次重装系统时再次确认。
