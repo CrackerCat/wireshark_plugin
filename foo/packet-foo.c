@@ -22,6 +22,9 @@ static const value_string packettypenames[] = {
 #define FOO_END_FLAG 0x02
 #define FOO_PRIORITY_FLAG 0x04
 
+#define FOO_SRC "MME"
+#define FOO_DST "HSS"
+
 static int hf_foo_startflag = -1;
 static int hf_foo_endflag = -1;
 static int hf_foo_priorityflag = -1;
@@ -57,6 +60,15 @@ dissect_foo(tvbuff_t *tvb, packet_info *pinfo, proto_tree *tree _U_, void *data 
 
     proto_tree_add_item(foo_tree, hf_foo_initialip, tvb, offset, 4, ENC_BIG_ENDIAN);
     offset += 4;
+
+    //set_address(&pinfo->src, AT_STRINGZ, (int)strlen(FOO_SRC)+1, FOO_SRC);
+    //set_address(&pinfo->dst, AT_STRINGZ, (int)strlen(FOO_DST)+1, FOO_DST);
+
+    set_address_tvb(&pinfo->net_src, AT_IPv4, 4, tvb, 0);
+    copy_address_shallow(&pinfo->src, &pinfo->net_src);
+
+    set_address_tvb(&pinfo->net_dst, AT_IPv4, 4, tvb, 4);
+    copy_address_shallow(&pinfo->dst, &pinfo->net_dst);
 
     return tvb_captured_length(tvb);
 }
