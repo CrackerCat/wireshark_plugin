@@ -8,3 +8,7 @@ EPB中timestamp的转换方式为unix时间戳us转为16进制，分别填充到
 
 和pcap相比，pcapng能够在一个文件中支持多种接口类型。文件格式如下：
 |SHB|IDB|IDB|...|IDB||EPB|EPB|...|EPB|
+
+
+虽然pcapng格式支持多SHB，比如|SHB_1|IDB_A|IDB_B|EPB_1|...|EPB_m|SHB_2|IDB_X|IDB_Y|EPB_1|...|EPB_n|
+wireshark当前版本，不支持多个SHB
