@@ -5,6 +5,8 @@
 
 static int proto_foo = -1;
 
+static dissector_handle_t foo_handle;
+
 static int hf_foo_pdu_type = -1;
 static int hf_foo_flags = -1;
 static int hf_foo_sequenceno = -1;
@@ -134,14 +136,14 @@ proto_register_foo(void)
 
     proto_register_field_array(proto_foo, hf, array_length(hf));
     proto_register_subtree_array(ett, array_length(ett));
+
+    // foo_handle = create_dissector_handle(dissect_foo, proto_foo);
+    foo_handle = register_dissector("foo", dissect_foo, proto_foo);
 }
 
 void
 proto_reg_handoff_foo(void)
 {
-    static dissector_handle_t foo_handle;
-
-    foo_handle = create_dissector_handle(dissect_foo, proto_foo);
     dissector_add_uint("udp.port", FOO_PORT, foo_handle);
 }
 
